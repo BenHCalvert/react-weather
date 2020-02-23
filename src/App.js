@@ -19,6 +19,12 @@ const App = () => {
 
   const { searchTerm, selectedDay, days, location } = weatherInfo;
 
+  const handleInputChange = e => {
+    console.log(e.target);
+    const { name, value } = e.target;
+    setWeatherinfo({ ...weatherInfo, [name]: value})
+  }
+
   return (
     <Container>
       <Row>
@@ -26,7 +32,10 @@ const App = () => {
           <h1>Weather Info for {location}</h1>
         </Col>
         <Col md={5}>
-          <SearchBar />
+          <SearchBar
+            searchTerm={searchTerm}
+            handleInputChange={handleInputChange}
+          />
         </Col>
       </Row>
       <Row>
@@ -42,14 +51,28 @@ const App = () => {
             low={day.min_temp}
             precip={day.pop}
             isSelected={day === selectedDay}
-            selectDay={() => setWeatherinfo({ ...weatherInfo, selectedDay: day})}
+            selectDay={() => setWeatherinfo({ ...weatherInfo, selectedDay: day })}
           />
 
 
         ))}
       </Row>
       <Row>
-        <DayDetails />
+        <Col>
+          {selectedDay ? (
+            <DayDetails
+              day={moment(selectedDay.valid_date, 'YYYY-MM-DD').format('dddd, MMMM Do, YYYY')}
+              icon={selectedDay.weather.icon}
+              description={selectedDay.weather.description}
+              temp={selectedDay.temp}
+              high={selectedDay.max_temp}
+              low={selectedDay.min_temp}
+              precip={selectedDay.pop}
+            />
+          ) : (
+              <h3>Click on a day above to view details</h3>
+            )}
+        </Col>
       </Row>
     </Container>
   );
