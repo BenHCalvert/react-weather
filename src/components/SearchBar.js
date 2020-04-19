@@ -5,7 +5,7 @@ import { FormWrapper } from '../styles'
 //react component is function props are args
 const SearchBar = props => {
   return (
-    <FormWrapper inline>
+    <FormWrapper inline onSubmit={props.handleFormSubmit}>
     <FormGroup>
       <Label for="searchTerm" hidden>Location Search</Label>
       <Input
@@ -16,7 +16,7 @@ const SearchBar = props => {
         onChange={props.handleInputChange}
         value={props.searchTerm}
       />
-      <Button>Search</Button>
+      <Button onClick={props.handleFormSubmit}>Search</Button>
     </FormGroup>
     </FormWrapper>
   )

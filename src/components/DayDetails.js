@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from 'reactstrap';
 import {DetailsWrapper} from '../styles';
 
 //react component is function props are args

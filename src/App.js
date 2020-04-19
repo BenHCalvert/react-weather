@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import moment from 'moment';
-import sampleData from "./data/sample.json";
+// import sampleData from "./data/sample.json";
 import SearchBar from "./components/SearchBar";
 import DayCard from "./components/DayCard";
 import DayDetails from "./components/DayDetails";
@@ -12,22 +12,44 @@ const App = () => {
   const [weatherInfo, setWeatherinfo] = useState({
     searchTerm: '',
     selectedDay: null,
-    days: sampleData.data,
-    location: 'Denver, CO',
-    // days: [],
-    // location: ''
+    days: [],
+    location: ''
   });
 
   const { searchTerm, selectedDay, days, location } = weatherInfo;
 
   useEffect(() => {
-    API.getWeather("Mount Rushmore");
+    getWeather('Las Vegas, NV')
   }, []);
+
+  const getWeather = location => {
+    if(!location) {
+      return alert('No location provided.');
+    }
+
+    API.getWeather(location)
+    .then(res => {
+      if (res) {
+        setWeatherinfo({
+          searchTerm: '',
+          selectedDay: null,
+          days: res.data.data,
+          location: res.data.city_name + ', ' + res.data.state_code
+        });
+      }
+    })
+    .catch(err => console.log(err));
+  }
 
   const handleInputChange = e => {
     console.log(e.target);
     const { name, value } = e.target;
     setWeatherinfo({ ...weatherInfo, [name]: value})
+  }
+
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    getWeather(searchTerm);
   }
 
   return (
@@ -40,6 +62,7 @@ const App = () => {
           <SearchBar
             searchTerm={searchTerm}
             handleInputChange={handleInputChange}
+            handleFormSubmit={handleFormSubmit}
           />
         </Col>
       </Row>
