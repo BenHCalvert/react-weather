@@ -5,6 +5,7 @@ import sampleData from "./data/sample.json";
 import SearchBar from "./components/SearchBar";
 import DayCard from "./components/DayCard";
 import DayDetails from "./components/DayDetails";
+import API from "./utils/API";
 
 const App = () => {
 
@@ -18,6 +19,10 @@ const App = () => {
   });
 
   const { searchTerm, selectedDay, days, location } = weatherInfo;
+
+  useEffect(() => {
+    API.getWeather("Mount Rushmore");
+  }, []);
 
   const handleInputChange = e => {
     console.log(e.target);
