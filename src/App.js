@@ -19,7 +19,7 @@ const App = () => {
   const { searchTerm, selectedDay, days, location } = weatherInfo;
 
   useEffect(() => {
-    getWeather('Las Vegas, NV')
+    getWeather('Boise, ID')
   }, []);
 
   const getWeather = location => {
